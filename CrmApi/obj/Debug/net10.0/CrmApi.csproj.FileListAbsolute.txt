@@ -33,3 +33,7 @@ D:\_DELETE_\CRMUI\CrmApi\obj\Debug\net10.0\refint\CrmApi.dll
 D:\_DELETE_\CRMUI\CrmApi\obj\Debug\net10.0\CrmApi.pdb
 D:\_DELETE_\CRMUI\CrmApi\obj\Debug\net10.0\CrmApi.genruntimeconfig.cache
 D:\_DELETE_\CRMUI\CrmApi\obj\Debug\net10.0\ref\CrmApi.dll
+D:\_DELETE_\CRMUI\CrmApi\obj\Debug\net10.0\CrmApi.MvcApplicationPartsAssemblyInfo.cs
+D:\_DELETE_\CRMUI\CrmApi\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\_DELETE_\CRMUI\CrmApi\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\_DELETE_\CRMUI\CrmApi\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

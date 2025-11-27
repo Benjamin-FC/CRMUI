@@ -57,6 +57,10 @@
             "Microsoft.OpenApi.Readers": {
               "target": "Package",
               "version": "[1.6.14, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.6.2, )"
             }
           },
           "imports": [
