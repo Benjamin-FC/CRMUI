@@ -7,7 +7,7 @@ Import-Module WebAdministration
 $appPoolName = "CrmApiPool"
 $siteName = "Default Web Site"
 $appName = "CRMApi"
-$physicalPath = "d:\_DELETE_\CRMUI\CrmApi\publish"
+$physicalPath = "d:\_DELETE_\CRMAPI\CrmApi\publish"
 
 Write-Host "Setting up IIS for CRM API on port 80..." -ForegroundColor Cyan
 

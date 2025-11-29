@@ -16,17 +16,19 @@ namespace CrmApi
     {
         private readonly RequestDelegate _next;
         private readonly OpenApiDocument _openApiDocument;
+        private readonly ILogger<MockMiddleware> _logger;
 
-        public MockMiddleware(RequestDelegate next)
+        public MockMiddleware(RequestDelegate next, ILogger<MockMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
             try
             {
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "swagger.json");
-                Console.WriteLine($"Loading swagger from: {filePath}");
+                _logger.LogInformation("Loading swagger from: {FilePath}", filePath);
                 if (!File.Exists(filePath))
                 {
-                    Console.WriteLine("Swagger file not found!");
+                    _logger.LogWarning("Swagger file not found at {FilePath}", filePath);
                     _openApiDocument = new OpenApiDocument();
                     return;
                 }
@@ -37,20 +39,20 @@ namespace CrmApi
 
                 if (diagnostic.Errors.Any())
                 {
-                    Console.WriteLine("Swagger parse errors:");
+                    _logger.LogWarning("Swagger parse errors:");
                     foreach (var error in diagnostic.Errors)
                     {
-                        Console.WriteLine(error.Message);
+                        _logger.LogWarning("Swagger error: {ErrorMessage}", error.Message);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Swagger loaded successfully.");
+                    _logger.LogInformation("Swagger loaded successfully");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading swagger: {ex}");
+                _logger.LogError(ex, "Error loading swagger");
                 throw;
             }
         }
@@ -67,6 +69,8 @@ namespace CrmApi
                 return;
             }
 
+            _logger.LogInformation("Mock API request: {Method} {Path}", method, path);
+
             try
             {
                 // Remove base path if present
@@ -82,7 +86,14 @@ namespace CrmApi
 
                 if (operation != null)
                 {
+                    _logger.LogDebug("Found matching operation: {OperationPath}", operation.Path);
+                    
                     var parameters = GetPathParameters(operation.Path, requestPath);
+                    if (parameters.Any())
+                    {
+                        _logger.LogDebug("Path parameters: {Parameters}", string.Join(", ", parameters.Select(p => $"{p.Key}={p.Value}")));
+                    }
+                    
                     var successResponse = operation.Operation.Responses
                         .FirstOrDefault(r => r.Key.StartsWith("2"));
 
@@ -95,15 +106,22 @@ namespace CrmApi
                         var schema = successResponse.Value.GetResponseSchema();
                         if (schema != null)
                         {
+                            _logger.LogDebug("Generating mock response from schema for {Path}", requestPath);
                             var dummyData = GenerateDummyData(schema, parameters);
-                            await context.Response.WriteAsync(JsonSerializer.Serialize(dummyData, 
-                                new JsonSerializerOptions { WriteIndented = true }));
+                            var response = JsonSerializer.Serialize(dummyData, new JsonSerializerOptions { WriteIndented = true });
+                            _logger.LogInformation("Returning mock response: {StatusCode} for {Method} {Path}", context.Response.StatusCode, method, path);
+                            await context.Response.WriteAsync(response);
                             return;
                         }
                     }
                 }
+                else
+                {
+                    _logger.LogWarning("No matching operation found for {Method} {RequestPath}", method, requestPath);
+                }
 
                 // If we get here, either no matching operation or no response schema
+                _logger.LogInformation("Returning default mock response for {Method} {RequestPath}", method, requestPath);
                 context.Response.StatusCode = StatusCodes.Status200OK;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new { 
@@ -115,6 +133,7 @@ namespace CrmApi
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error processing mock request for {Method} {Path}", method, path);
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonSerializer.Serialize(new { 

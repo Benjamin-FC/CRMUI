@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\_DELETE_\\CRMUI\\CrmApi\\CrmApi.csproj": {}
+    "D:\\_DELETE_\\CRMAPI\\CrmApi\\CrmApi.csproj": {}
   },
   "projects": {
-    "D:\\_DELETE_\\CRMUI\\CrmApi\\CrmApi.csproj": {
+    "D:\\_DELETE_\\CRMAPI\\CrmApi\\CrmApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\_DELETE_\\CRMUI\\CrmApi\\CrmApi.csproj",
+        "projectUniqueName": "D:\\_DELETE_\\CRMAPI\\CrmApi\\CrmApi.csproj",
         "projectName": "CrmApi",
-        "projectPath": "D:\\_DELETE_\\CRMUI\\CrmApi\\CrmApi.csproj",
+        "projectPath": "D:\\_DELETE_\\CRMAPI\\CrmApi\\CrmApi.csproj",
         "packagesPath": "C:\\Users\\barulan\\.nuget\\packages\\",
-        "outputPath": "D:\\_DELETE_\\CRMUI\\CrmApi\\obj\\",
+        "outputPath": "D:\\_DELETE_\\CRMAPI\\CrmApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "d:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -61,6 +61,30 @@
             "Microsoft.OpenApi.Readers": {
               "target": "Package",
               "version": "[1.4.4, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Serilog.Enrichers.Environment": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Serilog.Enrichers.Thread": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            },
+            "Serilog.Settings.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
